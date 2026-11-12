@@ -1,125 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090b16"><title>VYRO — Discover videos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b18">
+<title>VYRO — Your Space. Your World.</title>
 <style>
-:root{--bg:#090b16;--panel:#111629;--panel2:#171e34;--text:#f5f7ff;--muted:#9ba6c2;--line:#27304a;--accent:#8b7cff;--cyan:#49d7df;--pink:#ff72b6}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% -10%,#25204e 0,transparent 38%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
-button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;color:inherit}.top{position:sticky;top:0;z-index:5;background:#090b16eF;border-bottom:1px solid var(--line);backdrop-filter:blur(16px);padding:12px 4vw;display:flex;align-items:center;gap:18px}.brand{font-size:25px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,var(--cyan),var(--accent),var(--pink));background-clip:text;color:transparent}.search{flex:1;max-width:650px;display:flex;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:0 12px}.search input{width:100%;background:none;border:0;outline:0;color:var(--text);padding:12px}.btn{background:linear-gradient(110deg,#7767f7,#a35ee8);padding:10px 15px;border-radius:12px;font-weight:700}.btn.secondary{background:var(--panel2);border:1px solid var(--line)}.wrap{max-width:1250px;margin:26px auto;padding:0 20px}.hero{padding:28px;border:1px solid #34335c;border-radius:22px;background:linear-gradient(115deg,#211e49,#171c35 65%,#12323c);display:flex;justify-content:space-between;gap:20px;align-items:center}.hero h1{font-size:clamp(27px,5vw,44px);line-height:1.1;margin:0 0 10px}.hero p{color:#c1c7df;margin:0}.tag{color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:2px}.hero-icon{font-size:65px}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:24px 0}.chip{padding:8px 14px;border:1px solid var(--line);border-radius:99px;background:var(--panel);color:var(--muted)}.chip.active{background:#292552;color:white;border-color:#6558d6}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:20px 0 12px}.sectionhead h2{margin:0;font-size:21px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:17px}.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;overflow:hidden;min-width:0}.thumb{height:155px;background:linear-gradient(135deg,#28244e,#16404a);display:grid;place-items:center;position:relative;overflow:hidden}.thumb img,.thumb video{width:100%;height:100%;object-fit:cover}.play{font-size:38px;filter:drop-shadow(0 3px 8px #000)}.duration{position:absolute;right:9px;bottom:8px;background:#000b;padding:2px 7px;border-radius:6px;font-size:11px}.cardbody{padding:13px}.title{font-weight:750;margin:0 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.creator{color:var(--muted);font-size:13px}.stats{display:flex;gap:14px;color:var(--muted);font-size:12px;margin-top:10px}.actions{display:flex;gap:8px;margin-top:12px}.smallbtn{background:var(--panel2);border:1px solid var(--line);padding:7px 10px;border-radius:9px;font-size:12px}.smallbtn.liked{color:#ff82bd;border-color:#8c4771}.empty{padding:35px;text-align:center;border:1px dashed var(--line);border-radius:15px;color:var(--muted);grid-column:1/-1}.notice{margin:15px 0;padding:12px 15px;border:1px solid #5a4e9a;background:#1a1940;border-radius:12px;color:#d7d1ff}.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:18px;z-index:10}.modal.show{display:grid}.box{width:min(560px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:22px}.box h2{margin-top:0}.field{display:block;margin:13px 0}.field span{display:block;color:var(--muted);font-size:13px;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;background:#090e1d;border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--text);outline:none}.field textarea{min-height:85px;resize:vertical}.row{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}.foot{border-top:1px solid var(--line);margin-top:40px;padding:22px 0;color:var(--muted);font-size:12px}.hidden{display:none!important}
-@media(max-width:650px){.top{gap:9px;flex-wrap:wrap}.brand{font-size:22px}.search{order:3;flex-basis:100%;max-width:none}.hero{padding:22px}.hero-icon{font-size:45px}.wrap{padding:0 13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.thumb{height:115px}.cardbody{padding:10px}.title{font-size:13px}.stats{gap:7px}.smallbtn{padding:6px 7px}}
+:root{color-scheme:dark;--bg:#090b18;--panel:#12182d;--panel2:#19213b;--line:#2b3658;--text:#f5f7ff;--muted:#a3aecb;--a:#8c7cff;--b:#35d6c5;--red:#ff7188}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0,#292454 0,transparent 38%),var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}button,input{font:inherit}button{cursor:pointer}.wrap{max-width:1080px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0 24px;flex-wrap:wrap}.logo{font-size:25px;font-weight:950;letter-spacing:4px}.logo span{color:var(--b)}.nav{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 14px;border-radius:12px;font-weight:750}.btn.primary{border:0;background:linear-gradient(110deg,var(--a),#6455e8)}.btn:disabled{opacity:.55;cursor:not-allowed}.view{display:none}.view.active{display:block}.hero{padding:45px 0 28px;max-width:720px}.eyebrow{color:var(--b);font-size:11px;font-weight:850;letter-spacing:2px}.hero h1{font-size:clamp(42px,9vw,76px);line-height:1.02;margin:13px 0}.gradient{background:linear-gradient(90deg,#fff,#a99fff,#62e8d8);background-clip:text;color:transparent}.muted,.small{color:var(--muted)}.hero p{font-size:17px;max-width:570px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:24px 0}.card,.panel{background:linear-gradient(145deg,#171d36,#101528);border:1px solid var(--line);border-radius:19px;padding:20px}.card h3{margin:0 0 7px}.card p{margin:0;color:var(--muted)}.panel{max-width:560px;margin:24px auto}.panel h2{margin:0 0 6px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:var(--muted)}input{width:100%;padding:13px;border:1px solid var(--line);border-radius:11px;background:#090e20;color:var(--text);outline:none}input:focus{border-color:var(--a)}.notice{padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin:12px 0;color:var(--muted);overflow-wrap:anywhere}.notice.error{border-color:#78394a;color:#ff9cad}.notice.ok{border-color:#28695f;color:#8ce9d9}.tag{font-size:11px;padding:4px 9px;border-radius:99px;background:#2b2852;color:#d2ccff}.hidden{display:none!important}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.upload{border:1px dashed #59658e;border-radius:15px;padding:18px;margin-top:12px}.file{padding:12px;border:1px solid var(--line);border-radius:11px;margin-top:9px;overflow-wrap:anywhere}.danger{color:#ff9cad}footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 0}
+@media(max-width:520px){.wrap{padding:14px}.top{align-items:flex-start}.logo{font-size:22px}.hero{padding-top:25px}.panel,.card{padding:17px}.nav{width:100%}.nav .btn{flex:1}}
 </style>
 </head>
 <body>
-<header class="top"><div class="brand">VYRO</div><div class="search"><span style="align-self:center">⌕</span><input id="search" placeholder="Search videos, creators, hashtags…" aria-label="Search"></div><button class="btn" id="uploadOpen">＋ Upload</button><button class="btn secondary" id="authOpen">Sign in</button></header>
-<main class="wrap">
-<section class="hero"><div><div class="tag">YOUR WORLD. YOUR VIDEOS.</div><h1>Discover what moves you.</h1><p>Search creators, explore videos and share your own story with everyone.</p></div><div class="hero-icon">▶️</div></section>
-<div id="status" class="notice">Demo mode: connect a Supabase project in Settings to publish videos for everyone.</div>
-<div class="toolbar"><button class="chip active" data-filter="all">For you</button><button class="chip" data-filter="latest">Latest</button><button class="chip" data-filter="popular">Popular</button><button class="chip" data-filter="mine">My videos</button><button class="chip" id="settingsOpen">⚙ Settings</button></div>
-<div class="sectionhead"><h2 id="sectionTitle">Explore videos</h2><span class="muted" id="count"></span></div>
-<section class="grid" id="videos"></section>
-<footer class="foot">VYRO 2.0 · Discover • Create • Connect<br>Respect creators. Upload only videos you own or have permission to share.</footer>
+<div class="wrap">
+<header class="top">
+  <div class="logo">VYR<span>O</span></div>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="btn" data-page="home">Home</button>
+    <button class="btn" data-page="settings">⚙ Settings</button>
+    <button class="btn" id="signInNav" data-page="signin">Sign in</button>
+    <button class="btn primary" id="signUpNav" data-page="signup">Create account</button>
+    <button class="btn hidden" id="dashboardNav" data-page="dashboard">Dashboard</button>
+    <button class="btn hidden" id="logoutBtn">Log out</button>
+  </nav>
+</header>
+
+<main>
+<section class="view active" id="homePage">
+  <div class="hero">
+    <div class="eyebrow">WELCOME TO YOUR DIGITAL SPACE</div>
+    <h1>Your space.<br><span class="gradient">Your world.</span></h1>
+    <p class="muted">A modern place to create your account, manage your profile and share files.</p>
+    <div class="nav"><button class="btn primary" data-page="signup">Get started</button><button class="btn" data-page="settings">Set up cloud access</button></div>
+  </div>
+  <div class="grid">
+    <article class="card"><h3>✦ Personal workspace</h3><p>Sign in and manage your VYRO account.</p></article>
+    <article class="card"><h3>☁ Cloud storage</h3><p>Upload and list your files after the administrator configures Supabase.</p></article>
+    <article class="card"><h3>🔐 Account security</h3><p>Authentication and file permissions are controlled by Supabase.</p></article>
+  </div>
+</section>
+
+<section class="view panel" id="settingsPage">
+  <div class="eyebrow">SITE CONFIGURATION</div><h2>Settings</h2>
+  <p class="muted">Cloud setup is available here even before you sign in. You do not need an account just to open Settings.</p>
+  <div class="card">
+    <div class="row"><h3>☁ Supabase Cloud Connect</h3><span class="tag">INITIAL SETUP</span></div>
+    <p class="muted">The site administrator enters the project details here. Use only the Supabase Project URL and publishable key.</p>
+    <div class="field"><label for="projectUrl">Supabase Project URL</label><input id="projectUrl" type="url" placeholder="https://your-project.supabase.co" autocomplete="url"></div>
+    <div class="field"><label for="publishableKey">Supabase publishable key</label><input id="publishableKey" type="text" placeholder="sb_publishable_..." autocomplete="off"></div>
+    <button class="btn primary" id="connectBtn">Connect Supabase</button>
+    <button class="btn hidden" id="disconnectBtn">Disconnect on this device</button>
+    <div class="notice" id="connectionStatus" role="status">Not connected.</div>
+    <p class="small">Important: this browser saves the connection locally. To make one setup work for every visitor on a public static website, the administrator must put the public Project URL and publishable key into the deployed site configuration and republish it. A browser-only connection cannot write settings into the website for all other visitors.</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>Account settings</h3><p class="muted" id="accountStatus">You are browsing as a guest. Sign in to manage your account.</p>
+    <div class="nav" style="margin-top:12px"><button class="btn" data-page="signin">Sign in</button><button class="btn primary" data-page="signup">Create account</button></div>
+  </div>
+</section>
+
+<section class="view panel" id="signinPage">
+  <h2>Welcome back</h2><p class="muted">Sign in to continue to VYRO.</p>
+  <form id="signinForm">
+    <div class="field"><label for="signinEmail">Email</label><input id="signinEmail" type="email" autocomplete="email" required></div>
+    <div class="field"><label for="signinPassword">Password</label><input id="signinPassword" type="password" autocomplete="current-password" required></div>
+    <button class="btn primary" type="submit">Sign in</button>
+  </form><p class="muted">New to VYRO? <a href="#" data-page="signup">Create an account</a></p>
+</section>
+
+<section class="view panel" id="signupPage">
+  <h2>Create your account</h2><p class="muted">Join VYRO in a few steps.</p>
+  <form id="signupForm">
+    <div class="field"><label for="signupName">Display name</label><input id="signupName" maxlength="32" required></div>
+    <div class="field"><label for="signupEmail">Email</label><input id="signupEmail" type="email" autocomplete="email" required></div>
+    <div class="field"><label for="signupPassword">Password (at least 8 characters)</label><input id="signupPassword" type="password" minlength="8" autocomplete="new-password" required></div>
+    <button class="btn primary" type="submit">Create account</button>
+  </form><p class="muted">Already registered? <a href="#" data-page="signin">Sign in</a></p>
+</section>
+
+<section class="view" id="dashboardPage">
+  <div class="row"><div><div class="eyebrow">YOUR WORKSPACE</div><h2 id="welcomeName">Dashboard</h2><p class="muted" id="userEmail"></p></div><span class="tag">SIGNED IN</span></div>
+  <div class="grid"><article class="card"><h3>📁 Your files</h3><p>Upload and view files stored in your private folder.</p></article><article class="card"><h3>🔐 Account</h3><p id="profileRole">Member account</p></article></div>
+  <div class="card"><h3>Upload a file</h3><div class="upload"><input type="file" id="fileInput"><p class="small">Files are stored in your own user folder.</p><button class="btn primary" id="uploadBtn">Upload file</button></div><div id="uploadStatus" class="notice hidden"></div><h3 style="margin-top:20px">Your uploaded files</h3><div id="fileList"></div></div>
+</section>
+<div id="globalStatus" class="notice hidden" role="status"></div>
 </main>
-<div class="modal" id="uploadModal"><div class="box"><h2>Upload a video</h2><p class="muted">Add a title and choose a video file. Public uploads require Supabase setup.</p><label class="field"><span>Video title</span><input id="videoTitle" maxlength="90" placeholder="Give your video a title"></label><label class="field"><span>Description / hashtags</span><textarea id="videoDesc" maxlength="500" placeholder="Tell viewers about your video"></textarea></label><label class="field"><span>Video file</span><input id="videoFile" type="file" accept="video/*"></label><div class="row"><button class="btn secondary close">Cancel</button><button class="btn" id="publish">Publish video</button></div></div></div>
-<div class="modal" id="authModal"><div class="box"><h2>VYRO account</h2><p class="muted">Sign in or create an account (Supabase required).</p><label class="field"><span>Email</span><input id="email" type="email" placeholder="you@example.com"></label><label class="field"><span>Password</span><input id="password" type="password" minlength="6" placeholder="At least 6 characters"></label><div class="row"><button class="btn secondary close">Cancel</button><button class="btn secondary" id="signup">Create account</button><button class="btn" id="signin">Sign in</button></div></div></div>
-<div class="modal" id="settingsModal"><div class="box"><h2>Connect VYRO to the cloud</h2><p class="muted">Create a Supabase project, then paste its Project URL and anon/publishable key here. Never paste a service-role key.</p><label class="field"><span>Supabase Project URL</span><input id="sbUrl" placeholder="https://xxxx.supabase.co"></label><label class="field"><span>Supabase anon / publishable key</span><textarea id="sbKey" placeholder="eyJ..."></textarea></label><div class="notice">Database and Storage setup instructions are included in the source file comments. Cloud mode enables shared search, public uploads and accounts after setup.</div><div class="row"><button class="btn secondary close">Cancel</button><button class="btn" id="saveSettings">Save & connect</button></div></div></div>
-<div class="modal" id="playerModal"><div class="box"><div class="sectionhead"><h2 id="playerTitle">Video</h2><button class="smallbtn close">✕</button></div><video id="player" controls playsinline style="width:100%;max-height:55vh;background:#000;border-radius:12px"></video><p id="playerDesc" class="muted"></p><div class="stats" id="playerStats"></div></div></div>
+<footer>VYRO • Your Space. Your World.</footer>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+"use strict";
+const BUCKET="vyro-uploads";
+const CONFIG_KEY="vyro_supabase_config_v5";
+let supabaseClient=null;
+let currentUser=null;
 const $=id=>document.getElementById(id);
-let supa=null,user=null,filter='all',items=[],localLikes=new Set();
-const demo=[
-{id:'d1',title:'Welcome to VYRO 2.0',description:'A new place to discover creators. #vyro',creator:'VYRO Team',views:1280,likes:94,created_at:new Date().toISOString(),demo:true},
-{id:'d2',title:'Creative moments',description:'Share your creativity with the world. #creative',creator:'Creator Studio',views:842,likes:61,created_at:new Date(Date.now()-86400000).toISOString(),demo:true},
-{id:'d3',title:'Explore something new',description:'Find videos and creators through search. #discover',creator:'VYRO',views:510,likes:38,created_at:new Date(Date.now()-172800000).toISOString(),demo:true}
-];
-function modal(id,on=true){$(id).classList.toggle('show',on)}
-document.querySelectorAll('.close').forEach(b=>b.onclick=()=>document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show')));
-['uploadOpen','authOpen','settingsOpen'].forEach((id,i)=>$(id).onclick=()=>modal(['uploadModal','authModal','settingsModal'][i]));
-function msg(t){$('status').textContent=t}
-function safe(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-async function connect(){
- const url=localStorage.getItem('vyro_sb_url'),key=localStorage.getItem('vyro_sb_key');
- if(url&&key&&window.supabase){supa=window.supabase.createClient(url,key);try{const {data}=await supa.auth.getSession();user=data.session?.user||null;supa.auth.onAuthStateChange((_e,s)=>{user=s?.user||null;updateAuth();load()});msg('Cloud connected. Public videos can be discovered by everyone.');}catch(e){msg('Cloud connection error: '+e.message)}}
- updateAuth();load();
+const pages=["home","settings","signin","signup","dashboard"];
+function showPage(name){
+  if(name==="dashboard"&&!currentUser) name="signin";
+  pages.forEach(p=>$(p+"Page").classList.toggle("active",p===name));
+  window.scrollTo({top:0,behavior:"smooth"});
 }
-function updateAuth(){$('authOpen').textContent=user?(user.email||'Account').split('@')[0]:'Sign in'}
-async function load(){
- if(!supa){items=demo;render();return}
- try{const {data,error}=await supa.from('videos').select('*').eq('is_public',true).order('created_at',{ascending:false}).limit(100);if(error)throw error;items=data||[];render()}
- catch(e){items=demo;render();msg('Cloud connected, but video table setup is missing or blocked: '+e.message)}
+document.querySelectorAll("[data-page]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();showPage(el.dataset.page)}));
+function message(msg,type=""){const el=$("globalStatus");el.textContent=msg;el.className="notice"+(type?" "+type:"");el.classList.remove("hidden")}
+function readConfig(){try{return JSON.parse(localStorage.getItem(CONFIG_KEY)||"null")}catch{return null}}
+function setConnection(msg,type=""){const el=$("connectionStatus");el.textContent=msg;el.className="notice"+(type?" "+type:"")}
+function initClient(cfg){
+  if(!window.supabase||!window.supabase.createClient) throw new Error("Supabase library did not load. Check your internet connection.");
+  supabaseClient=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 }
-function render(){
- let q=$('search').value.trim().toLowerCase(),list=[...items];
- if(filter==='latest')list.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
- if(filter==='popular')list.sort((a,b)=>(b.views||0)-(a.views||0));
- if(filter==='mine')list=list.filter(v=>user&&v.user_id===user.id);
- if(q)list=list.filter(v=>(v.title+' '+(v.description||'')+' '+(v.creator||'')).toLowerCase().includes(q));
- $('sectionTitle').textContent=q?'Search results':filter==='mine'?'My videos':filter==='latest'?'Latest videos':filter==='popular'?'Popular videos':'Explore videos';
- $('count').textContent=list.length+' videos';
- $('videos').innerHTML=list.length?list.map(v=>`<article class="card"><div class="thumb" data-play="${safe(v.id)}">${v.thumbnail_url?`<img src="${safe(v.thumbnail_url)}" alt="">`:'<div class="play">▶</div>'}<span class="duration">▶ WATCH</span></div><div class="cardbody"><p class="title">${safe(v.title)}</p><div class="creator">by ${safe(v.creator||'VYRO creator')}</div><div class="stats"><span>◉ ${Number(v.views||0).toLocaleString()}</span><span>♥ ${Number(v.likes||0).toLocaleString()}</span></div><div class="actions"><button class="smallbtn ${localLikes.has(v.id)?'liked':''}" data-like="${safe(v.id)}">♥ Like</button><button class="smallbtn" data-share="${safe(v.id)}">↗ Share</button></div></div></article>`).join(''):'<div class="empty">No videos found. Try another search, or be the first to publish a video!</div>';
- document.querySelectorAll('[data-play]').forEach(el=>el.onclick=()=>play(el.dataset.play));
- document.querySelectorAll('[data-like]').forEach(el=>el.onclick=()=>like(el.dataset.like));
- document.querySelectorAll('[data-share]').forEach(el=>el.onclick=()=>share(el.dataset.share));
+function validConfig(url,key){
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)) throw new Error("Enter a valid Supabase project URL.");
+  if(!key||key.length<20) throw new Error("Enter the Supabase publishable key.");
 }
-function find(id){return items.find(v=>String(v.id)===String(id))}
-async function play(id){const v=find(id);if(!v)return;if(v.demo){alert('This is a VYRO demo card. Connect Supabase and upload a real video to play it.');return}
- $('playerTitle').textContent=v.title;$('playerDesc').textContent=v.description||'';$('player').src=v.video_url;modal('playerModal');$('player').play().catch(()=>{});
- if(supa)supa.from('videos').update({views:(v.views||0)+1}).eq('id',v.id).then(()=>{v.views=(v.views||0)+1;render()});
+async function refreshSession(){
+  const cfg=readConfig();if(!cfg)return;
+  try{
+    initClient(cfg);
+    const {data,error}=await supabaseClient.auth.getSession();if(error)throw error;
+    setConnection("Connected on this browser.", "ok");
+    $("disconnectBtn").classList.remove("hidden");
+    await updateSession(data.session);
+    supabaseClient.auth.onAuthStateChange((_event,session)=>{updateSession(session)});
+  }catch(e){setConnection("Connection error: "+e.message,"error")}
 }
-async function like(id){const v=find(id);if(!v)return;if(!supa||!user){alert('Connect Supabase and sign in to like videos.');return}
- const key=id;if(localLikes.has(key))return;
- const {error}=await supa.from('video_likes').insert({video_id:id,user_id:user.id});
- if(error){alert('Could not like: '+error.message);return}localLikes.add(key);v.likes=(v.likes||0)+1;render();
+async function updateSession(session){
+  currentUser=session?.user||null;
+  $("signInNav").classList.toggle("hidden",!!currentUser);
+  $("signUpNav").classList.toggle("hidden",!!currentUser);
+  $("dashboardNav").classList.toggle("hidden",!currentUser);
+  $("logoutBtn").classList.toggle("hidden",!currentUser);
+  $("accountStatus").textContent=currentUser?"Signed in as "+(currentUser.email||"member"):"You are browsing as a guest. Sign in to manage your account.";
+  if(currentUser){
+    let display=currentUser.user_metadata?.display_name||currentUser.email?.split("@")[0]||"Member";
+    const {data}=await supabaseClient.from("profiles").select("display_name,role").eq("id",currentUser.id).maybeSingle();
+    if(data?.display_name)display=data.display_name;
+    $("welcomeName").textContent="Hello, "+display;
+    $("userEmail").textContent=currentUser.email||"";
+    $("profileRole").textContent=data?.role==="admin"?"Administrator":"Member account";
+    showPage("dashboard");await loadFiles();
+  }else if($("dashboardPage").classList.contains("active"))showPage("home");
 }
-async function share(id){const v=find(id);if(!v)return;const link=location.href.split('#')[0]+'#video='+encodeURIComponent(id);try{await navigator.clipboard.writeText(link);alert('Video link copied!')}catch(e){prompt('Copy video link:',link)}}
-$('search').addEventListener('input',render);
-document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));render()});
-$('saveSettings').onclick=async()=>{const u=$('sbUrl').value.trim(),k=$('sbKey').value.trim();if(!u.startsWith('https://')||!k){alert('Enter a valid project URL and public anon/publishable key.');return}localStorage.setItem('vyro_sb_url',u);localStorage.setItem('vyro_sb_key',k);modal('settingsModal',false);await connect()};
-async function auth(mode){if(!supa){alert('Connect Supabase in Settings first.');return}const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<6){alert('Enter a valid email and password (minimum 6 characters).');return}const r=mode==='up'?await supa.auth.signUp({email,password}):await supa.auth.signInWithPassword({email,password});if(r.error)alert(r.error.message);else{alert(mode==='up'?'Account created. Check your email if confirmation is enabled.':'Signed in!');modal('authModal',false);load()}}
-$('signup').onclick=()=>auth('up');$('signin').onclick=()=>auth('in');
-$('publish').onclick=async()=>{
- const title=$('videoTitle').value.trim(),file=$('videoFile').files[0],description=$('videoDesc').value.trim();
- if(!title||!file){alert('Add a title and choose a video file.');return}
- if(!supa||!user){alert('For public uploads, first connect Supabase in Settings and sign in.');return}
- if(!file.type.startsWith('video/')){alert('Please choose a video file.');return}
- if(file.size>100*1024*1024){alert('For this starter version, choose a video under 100 MB.');return}
- const ext=(file.name.split('.').pop()||'mp4').replace(/[^a-z0-9]/gi,'');const path=user.id+'/'+Date.now()+'.'+ext;
- msg('Uploading video…');
- const up=await supa.storage.from('videos').upload(path,file,{upsert:false,contentType:file.type});
- if(up.error){msg('Upload failed. Check Storage bucket and policies.');alert(up.error.message);return}
- const {data:pub}=supa.storage.from('videos').getPublicUrl(path);
- const ins=await supa.from('videos').insert({user_id:user.id,title,description,video_url:pub.publicUrl,creator:user.email,is_public:true}).select().single();
- if(ins.error){alert('Video uploaded, but saving its details failed: '+ins.error.message);return}
- $('videoTitle').value='';$('videoDesc').value='';$('videoFile').value='';modal('uploadModal',false);msg('Your video is now public and searchable!');await load();
-};
-if(location.hash.includes('video=')){const id=decodeURIComponent(location.hash.split('video=')[1]||'');setTimeout(()=>play(id),800)}
-connect();
+$("connectBtn").addEventListener("click",async()=>{
+  const url=$("projectUrl").value.trim().replace(/\/+$/,""),key=$("publishableKey").value.trim();
+  try{
+    validConfig(url,key);
+    $("connectBtn").disabled=true;$("connectBtn").textContent="Connecting…";
+    initClient({url,key});
+    const {data,error}=await supabaseClient.auth.getSession();if(error)throw error;
+    localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));
+    $("disconnectBtn").classList.remove("hidden");
+    setConnection("Supabase connected successfully on this browser.","ok");
+    await updateSession(data.session);
+    supabaseClient.auth.onAuthStateChange((_event,session)=>{updateSession(session)});
+    message("Cloud connection saved on this browser.","ok");
+  }catch(e){supabaseClient=null;setConnection(e.message,"error");message(e.message,"error")}
+  finally{$("connectBtn").disabled=false;$("connectBtn").textContent="Connect Supabase"}
+});
+$("disconnectBtn").addEventListener("click",async()=>{
+  if(supabaseClient){try{await supabaseClient.auth.signOut()}catch(e){}}
+  localStorage.removeItem(CONFIG_KEY);supabaseClient=null;currentUser=null;
+  $("disconnectBtn").classList.add("hidden");setConnection("Disconnected on this browser.");await updateSession(null);showPage("settings");
+});
+$("signupForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{
+    if(!supabaseClient)throw new Error("Cloud is not connected. Open Settings and connect Supabase first.");
+    const {data,error}=await supabaseClient.auth.signUp({email:$("signupEmail").value.trim(),password:$("signupPassword").value,options:{data:{display_name:$("signupName").value.trim()}}});
+    if(error)throw error;
+    if(data.session){await updateSession(data.session);message("Account created successfully.","ok")}
+    else message("Account created. Check your email to confirm it, then sign in.","ok");
+  }catch(e){message(e.message,"error")}
+});
+$("signinForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{
+    if(!supabaseClient)throw new Error("Cloud is not connected. Open Settings and connect Supabase first.");
+    const {data,error}=await supabaseClient.auth.signInWithPassword({email:$("signinEmail").value.trim(),password:$("signinPassword").value});
+    if(error)throw error;await updateSession(data.session);message("Signed in successfully.","ok");
+  }catch(e){message(e.message,"error")}
+});
+$("logoutBtn").addEventListener("click",async()=>{
+  if(supabaseClient)await supabaseClient.auth.signOut();
+  currentUser=null;await updateSession(null);showPage("home");message("You have been signed out.","ok");
+});
+$("uploadBtn").addEventListener("click",async()=>{
+  try{
+    if(!currentUser||!supabaseClient)throw new Error("Sign in before uploading.");
+    const file=$("fileInput").files[0];if(!file)throw new Error("Choose a file first.");
+    const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const path=currentUser.id+"/"+Date.now()+"_"+safe;
+    const {error}=await supabaseClient.storage.from(BUCKET).upload(path,file,{upsert:false});
+    if(error)throw error;
+    $("uploadStatus").textContent="Upload complete."; $("uploadStatus").className="notice ok";await loadFiles();
+  }catch(e){$("uploadStatus").textContent=e.message;$("uploadStatus").className="notice error"}
+});
+async function loadFiles(){
+  if(!currentUser||!supabaseClient)return;
+  const root=$("fileList");root.textContent="Loading…";
+  const {data,error}=await supabaseClient.storage.from(BUCKET).list(currentUser.id,{limit:100,sortBy:{column:"created_at",order:"desc"}});
+  root.innerHTML="";
+  if(error){root.textContent=error.message;return}
+  if(!data?.length){root.textContent="No files uploaded yet.";return}
+  data.forEach(f=>{const div=document.createElement("div");div.className="file";div.textContent=f.name;root.appendChild(div)});
+}
+const saved=readConfig();
+if(saved){$("projectUrl").value=saved.url||"";$("publishableKey").value=saved.key||"";refreshSession()}
 </script>
-<!-- SUPABASE SETUP (run in Supabase SQL Editor)
-create table public.videos (
- id bigint generated by default as identity primary key,
- user_id uuid not null references auth.users(id) on delete cascade,
- title text not null, description text default '',
- video_url text not null, thumbnail_url text, creator text,
- views bigint default 0, likes bigint default 0,
- is_public boolean default true, created_at timestamptz default now()
-);
-create table public.video_likes (
- video_id bigint references public.videos(id) on delete cascade,
- user_id uuid references auth.users(id) on delete cascade,
- primary key(video_id,user_id)
-);
-alter table public.videos enable row level security;
-alter table public.video_likes enable row level security;
-create policy "Public videos are viewable" on public.videos for select using (is_public=true);
-create policy "Users insert own videos" on public.videos for insert to authenticated with check (auth.uid()=user_id);
-create policy "Users update own videos" on public.videos for update to authenticated using (auth.uid()=user_id);
-create policy "Public likes readable" on public.video_likes for select using (true);
-create policy "Users like as themselves" on public.video_likes for insert to authenticated with check (auth.uid()=user_id);
-create policy "Users remove own likes" on public.video_likes for delete to authenticated using (auth.uid()=user_id);
--- Create a PUBLIC Storage bucket named videos in Storage dashboard.
--- Storage policies: allow public SELECT; allow authenticated INSERT when bucket_id='videos' and first folder name = auth.uid()::text.
--- IMPORTANT: Enable RLS and configure policies. Never expose a service_role key.
--->
-</body></html>
+</body>
+</html>
