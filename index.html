@@ -1,1 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b18">
+<title>VYRO — Your Space. Your World.</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+--bg:#090b18;
+--panel:#12182d;
+--panel2:#19213b;
+--line:#2b3658;
+--text:#f5f7ff;
+--muted:#a3aecb;
+--a:#8c7cff;
+--b:#35d6c5;
+--red:#ff7188;
+}
+*{box-sizing:border-box}
+body{
+margin:0;background:var(--bg);color:var(--text);
+font:15px/1.55 system-ui,sans-serif;
+min-height:100vh;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1080px;margin:auto;padding:18px}
+.top,.row{
+display:flex;align-items:center;
+justify-content:space-between;
+gap:12px;flex-wrap:wrap
+}
+.top{padding:10px 0 24px}
+.logo{font-size:27px;font-weight:950;letter-spacing:4px}
+.logo span{color:var(--b)}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+border:1px solid var(--line);
+background:var(--panel2);
+color:white;padding:10px 14px;
+border-radius:12px;font-weight:750
+}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.primary{
+border:0;background:linear-gradient(110deg,var(--a),#6455e8)
+}
+.danger{background:#542538;border-color:#78394a}
+.view{display:none}
+.view.active{display:block}
+.hidden{display:none!important}
+.hero{padding:45px 0 28px;max-width:720px}
+.eyebrow{
+color:var(--b);font-size:11px;
+font-weight:850;letter-spacing:2px
+}
+h1{font-size:clamp(42px,9vw,76px);line-height:1.02}
+.gradient{
+background:linear-gradient(90deg,#fff,#a99fff,#62e8d8);
+background-clip:text;color:transparent
+}
+.muted,.small{color:var(--muted)}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+gap:14px;margin:24px 0
+}
+.card,.panel{
+background:linear-gradient(145deg,#171d36,#101528);
+border:1px solid var(--line);
+border-radius:19px;padding:20px
+}
+.panel{max-width:650px;margin:24px auto}
+.field{display:grid;gap:7px;margin:14px 0}
+label{font-size:13px;color:var(--muted)}
+input,textarea{
+width:100%;padding:13px;
+border:1px solid var(--line);
+border-radius:11px;background:#090e20;color:white
+}
+textarea{min-height:90px}
+.notice{
+padding:12px;border:1px solid var(--line);
+border-radius:12px;margin:12px 0;
+overflow-wrap:anywhere
+}
+.error{color:#ff9cad;border-color:#78394a}
+.ok{color:#8ce9d9;border-color:#28695f}
+.tag{
+background:#2b2852;color:#d2ccff;
+padding:4px 9px;border-radius:99px;font-size:11px
+}
+.profile{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.avatar{
+width:95px;height:95px;border-radius:50%;
+object-fit:cover;background:#252b49;
+border:2px solid var(--a)
+}
+.file{
+padding:13px;border:1px solid var(--line);
+border-radius:12px;margin-top:10px
+}
+.file img,.file video{
+width:100%;max-height:300px;
+object-fit:contain;border-radius:10px;margin-top:8px
+}
+.file-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:520px){
+.wrap{padding:14px}
+.nav{width:100%}
+.nav .btn{flex:1}
+.panel,.card{padding:17px}
+.hero{padding-top:25px}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header class="top">
+<div class="logo">VYR<span>O</span></div>
+<nav class="nav">
+<button class="btn" data-page="home">Home</button>
+<button class="btn" data-page="settings">Settings</button>
+<button class="btn" id="signinNav" data-page="signin">Sign in</button>
+<button class="btn primary" id="signupNav" data-page="signup">Create account</button>
+<button class="btn hidden" id="dashboardNav" data-page="dashboard">Dashboard</button>
+<button class="btn danger hidden" id="logoutBtn">Log out</button>
+</nav>
+</header>
+
+<main>
+
+<section class="view active" id="homePage">
+<div class="hero">
+<div class="eyebrow">WELCOME TO YOUR DIGITAL SPACE</div>
+<h1>Your space.<br><span class="gradient">Your world.</span></h1>
+<p class="muted">
+Create your account, customise your profile
+and share your files with VYRO.
+</p>
+<button class="btn primary" data-page="signup">Get started</button>
+<button class="btn" data-page="signin">Sign in</button>
+</div>
+
+<div class="grid">
+<div class="card">
+<h3>✦ Personal workspace</h3>
+<p class="muted">Your own VYRO account.</p>
+</div>
+<div class="card">
+<h3>☁ Cloud storage</h3>
+<p class="muted">Store images and videos.</p>
+</div>
+<div class="card">
+<h3>🎨 Custom profile</h3>
+<p class="muted">Personalise your identity.</p>
+</div>
+</div>
+</section>
+
+<section class="view panel" id="settingsPage">
+<h2>⚙ VYRO Settings</h2>
+
+<div class="card">
+<h3>☁ Supabase Connection</h3>
+<div id="connectionStatus" class="notice">
+Checking connection...
+</div>
+<button class="btn primary" id="testConnection">
+Test connection
+</button>
+</div>
+
+<div class="card" style="margin-top:15px">
+<h3>👤 Account</h3>
+<button class="btn" data-page="dashboard">
+Open Dashboard
+</button>
+</div>
+</section>
+
+<section class="view panel" id="signinPage">
+<h2>Welcome back</h2>
+<form id="signinForm">
+<div class="field">
+<label>Email</label>
+<input id="signinEmail" type="email" required>
+</div>
+<div class="field">
+<label>Password</label>
+<input id="signinPassword" type="password" required>
+</div>
+<button class="btn primary" id="signinBtn">Sign in</button>
+</form>
+<p class="muted">
+New to VYRO?
+<button class="btn" data-page="signup">Create account</button>
+</p>
+</section>
+
+<section class="view panel" id="signupPage">
+<h2>Create account</h2>
+<form id="signupForm">
+<div class="field">
+<label>Display name</label>
+<input id="signupName" maxlength="32" required>
+</div>
+<div class="field">
+<label>Email</label>
+<input id="signupEmail" type="email" required>
+</div>
+<div class="field">
+<label>Password (8+ characters)</label>
+<input id="signupPassword" type="password" minlength="8" required>
+</div>
+<button class="btn primary" id="signupBtn">Create account</button>
+</form>
+</section>
+
+<section class="view" id="dashboardPage">
+<div class="row">
+<div>
+<div class="eyebrow">YOUR WORKSPACE</div>
+<h2 id="welcomeName">Dashboard</h2>
+<p id="userEmail" class="muted"></p>
+</div>
+<span class="tag">SIGNED IN</span>
+</div>
+
+<div class="grid">
+<div class="card">
+<h3>👤 Your profile</h3>
+<p class="muted">Customise your identity.</p>
+<button class="btn primary" data-page="profile">
+Edit profile
+</button>
+</div>
+<div class="card">
+<h3>☁ Cloud storage</h3>
+<p class="muted">Your uploaded files.</p>
+<button class="btn" id="refreshFiles">Refresh files</button>
+</div>
+</div>
+
+<div class="card">
+<h3>Upload image or video</h3>
+<div class="field">
+<label>Choose file</label>
+<input type="file" id="fileInput" accept="image/*,video/*">
+</div>
+<p class="small">
+Images: vyro-uploads | Videos: vyro-videos
+</p>
+<button class="btn primary" id="uploadBtn">Upload file</button>
+<div class="notice hidden" id="uploadStatus"></div>
+
+<h3>🖼 Your images</h3>
+<div id="imageList">No files loaded.</div>
+
+<h3>🎬 Your videos</h3>
+<div id="videoList">No files loaded.</div>
+</div>
+</section>
+
+<section class="view panel" id="profilePage">
+<h2>Customise profile</h2>
+
+<div class="profile">
+<img id="avatarPreview" class="avatar" alt="Profile picture">
+<div>
+<h3 id="previewName">Your name</h3>
+<p id="previewUsername" class="muted">@username</p>
+</div>
+</div>
+
+<form id="profileForm">
+<div class="field">
+<label>Profile picture</label>
+<input type="file" id="avatarInput" accept="image/*">
+</div>
+<div class="field">
+<label>Display name</label>
+<input id="profileName" maxlength="32" required>
+</div>
+<div class="field">
+<label>Username</label>
+<input id="profileUsername" maxlength="24" required>
+</div>
+<div class="field">
+<label>Bio</label>
+<textarea id="profileBio" maxlength="160"></textarea>
+</div>
+<button class="btn primary">Save profile</button>
+<button class="btn" type="button" data-page="dashboard">Cancel</button>
+</form>
+
+<div id="profileStatus" class="notice hidden"></div>
+</section>
+
+<div id="globalStatus" class="notice hidden"></div>
+</main>
+
+<footer>VYRO • Your Space. Your World.</footer>
+</div>
+
+<script>
+"use strict";
+
+/* VYRO CONFIG */
+
+const SUPABASE_URL =
+"https://gfiizideuzgxmzornzir.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_zxKBoWcdmV4Bc5DftC9qGQ_6JL3iZKt";
+
+const IMAGE_BUCKET = "vyro-uploads";
+const VIDEO_BUCKET = "vyro-videos";
+
+const $ = id => document.getElementById(id);
+
+const pages = [
+"home","settings","signin","signup","dashboard","profile"
+];
+
+const db = window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY,
+{
+auth:{
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+}
+);
+
+let currentUser = null;
+let profileData = null;
+
+/* NOTIFICATIONS */
+
+function notify(msg,type=""){
+const el=$("globalStatus");
+el.textContent=msg;
+el.className="notice "+type;
+el.classList.remove("hidden");
+}
+
+function localNotify(id,msg,type=""){
+const el=$(id);
+el.textContent=msg;
+el.className="notice "+type;
+el.classList.remove("hidden");
+}
+
+/* NAVIGATION */
+
+function showPage(page){
+if(!pages.includes(page))return;
+
+if(["dashboard","profile"].includes(page)&&!currentUser){
+page="signin";
+}
+
+pages.forEach(p=>{
+$(p+"Page").classList.toggle("active",p===page);
+});
+
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll("[data-page]").forEach(btn=>{
+btn.addEventListener("click",()=>{
+showPage(btn.dataset.page);
+});
+});
+
+/* CONNECTION TEST */
+
+async function testConnection(){
+const el=$("connectionStatus");
+const btn=$("testConnection");
+
+btn.disabled=true;
+el.textContent="Checking Supabase...";
+
+try{
+const {error}=await db.from("profiles")
+.select("id").limit(1);
+
+if(error)throw error;
+
+el.textContent="Supabase connected successfully.";
+el.className="notice ok";
+
+}catch(err){
+el.textContent=err.message;
+el.className="notice error";
+}finally{
+btn.disabled=false;
+}
+}
+
+$("testConnection").addEventListener("click",testConnection);
+
+/* PROFILE DATABASE */
+
+async function getProfile(){
+const {data,error}=await db.from("profiles")
+.select("id,display_name,username,bio,avatar_path")
+.eq("id",currentUser.id)
+.maybeSingle();
+
+if(error)throw error;
+return data;
+}
+
+async function ensureProfile(){
+const existing=await getProfile();
+
+if(existing){
+profileData=existing;
+return;
+}
+
+const name=
+currentUser.user_metadata?.display_name||
+currentUser.email.split("@")[0];
+
+const {error}=await db.from("profiles").upsert({
+id:currentUser.id,
+display_name:name
+},{onConflict:"id"});
+
+if(error)throw error;
+
+profileData=await getProfile();
+}
+
+/* AVATAR */
+
+async function showAvatar(){
+const img=$("avatarPreview");
+
+if(!profileData?.avatar_path){
+img.removeAttribute("src");
+return;
+}
+
+const {data,error}=await db.storage
+.from(IMAGE_BUCKET)
+.createSignedUrl(profileData.avatar_path,3600);
+
+if(error)throw error;
+img.src=data.signedUrl;
+}
+
+/* SESSION */
+
+async function updateSession(session){
+currentUser=session?.user||null;
+
+$("signinNav").classList.toggle("hidden",!!currentUser);
+$("signupNav").classList.toggle("hidden",!!currentUser);
+$("dashboardNav").classList.toggle("hidden",!currentUser);
+$("logoutBtn").classList.toggle("hidden",!currentUser);
+
+if(!currentUser){
+profileData=null;
+
+if(
+$("dashboardPage").classList.contains("active")||
+$("profilePage").classList.contains("active")
+){
+showPage("home");
+}
+return;
+}
+
+await ensureProfile();
+
+const name=profileData?.display_name||"Member";
+
+$("welcomeName").textContent="Hello, "+name;
+$("userEmail").textContent=currentUser.email;
+
+$("profileName").value=profileData?.display_name||"";
+$("profileUsername").value=profileData?.username||"";
+$("profileBio").value=profileData?.bio||"";
+
+$("previewName").textContent=name;
+$("previewUsername").textContent=
+"@"+(profileData?.username||"username");
+
+await showAvatar();
+
+showPage("dashboard");
+await loadFiles();
+}
+
+/* SIGN UP */
+
+$("signupForm").addEventListener("submit",async e=>{
+e.preventDefault();
+
+const btn=$("signupBtn");
+
+try{
+btn.disabled=true;
+btn.textContent="Creating account...";
+
+const {data,error}=await db.auth.signUp({
+email:$("signupEmail").value.trim(),
+password:$("signupPassword").value,
+options:{
+data:{
+display_name:$("signupName").value.trim()
+}
+}
+});
+
+if(error)throw error;
+
+if(data.session){
+await updateSession(data.session);
+notify("Account created successfully!","ok");
+}else{
+notify("Check your email to confirm your account.","ok");
+showPage("signin");
+}
+
+}catch(err){
+notify(err.message,"error");
+}finally{
+btn.disabled=false;
+btn.textContent="Create account";
+}
+});
+
+/* SIGN IN */
+
+$("signinForm").addEventListener("submit",async e=>{
+e.preventDefault();
+
+const btn=$("signinBtn");
+
+try{
+btn.disabled=true;
+btn.textContent="Signing in...";
+
+const {data,error}=await db.auth.signInWithPassword({
+email:$("signinEmail").value.trim(),
+password:$("signinPassword").value
+});
+
+if(error)throw error;
+
+await updateSession(data.session);
+notify("Welcome to VYRO!","ok");
+
+}catch(err){
+notify(err.message,"error");
+}finally{
+btn.disabled=false;
+btn.textContent="Sign in";
+}
+});
+
+/* LOGOUT */
+
+$("logoutBtn").addEventListener("click",async()=>{
+const btn=$("logoutBtn");
+
+try{
+btn.disabled=true;
+
+const {error}=await db.auth.signOut();
+if(error)throw error;
+
+await updateSession(null);
+showPage("home");
+notify("Signed out successfully.","ok");
+
+}catch(err){
+notify(err.message,"error");
+}finally{
+btn.disabled=false;
+}
+});
+
+/* PROFILE PREVIEW */
+
+$("profileName").addEventListener("input",()=>{
+$("previewName").textContent=
+$("profileName").value||"Your name";
+});
+
+$("profileUsername").addEventListener("input",()=>{
+$("previewUsername").textContent=
+"@"+$("profileUsername").value;
+});
+
+/* SAVE PROFILE */
+
+$("profileForm").addEventListener("submit",async e=>{
+e.preventDefault();
+
+try{
+if(!currentUser)throw Error("Sign in first.");
+
+const name=$("profileName").value.trim();
+const username=$("profileUsername").value.trim().toLowerCase();
+const bio=$("profileBio").value.trim();
+
+if(!name)throw Error("Enter display name.");
+
+if(!/^[a-z0-9_]{3,24}$/.test(username)){
+throw Error("Username must contain 3-24 letters, numbers or underscores.");
+}
+
+let avatarPath=profileData?.avatar_path||null;
+const file=$("avatarInput").files[0];
+
+if(file){
+if(!file.type.startsWith("image/")){
+throw Error("Choose an image.");
+}
+
+if(file.size>10*1024*1024){
+throw Error("Image limit is 10 MB.");
+}
+
+const path=currentUser.id+"/avatar_"+Date.now();
+
+const {error}=await db.storage.from(IMAGE_BUCKET).upload(
+path,file,{
+upsert:false,
+contentType:file.type
+});
+
+if(error)throw error;
+avatarPath=path;
+}
+
+const {error}=await db.from("profiles").upsert({
+id:currentUser.id,
+display_name:name,
+username:username,
+bio:bio,
+avatar_path:avatarPath
+},{onConflict:"id"});
+
+if(error)throw error;
+
+const {error:authError}=await db.auth.updateUser({
+data:{display_name:name}
+});
+
+if(authError)throw authError;
+
+profileData=await getProfile();
+await showAvatar();
+
+$("welcomeName").textContent="Hello, "+name;
+$("avatarInput").value="";
+
+localNotify(
+"profileStatus",
+"Profile updated successfully!",
+"ok"
+);
+
+}catch(err){
+localNotify("profileStatus",err.message,"error");
+}
+});
+
+/* FILE NAME */
+
+function safeName(name){
+return name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(0,100);
+}
+
+/* UPLOAD */
+
+$("uploadBtn").addEventListener("click",async()=>{
+const btn=$("uploadBtn");
+
+try{
+if(!currentUser)throw Error("Sign in before uploading.");
+
+const file=$("fileInput").files[0];
+
+if(!file)throw Error("Choose a file.");
+
+const isImage=file.type.startsWith("image/");
+const isVideo=file.type.startsWith("video/");
+
+if(!isImage&&!isVideo){
+throw Error("Only images and videos are allowed.");
+}
+
+if(isImage&&file.size>10*1024*1024){
+throw Error("Image limit is 10 MB.");
+}
+
+if(isVideo&&file.size>100*1024*1024){
+throw Error("Video limit is 100 MB.");
+}
+
+const bucket=isImage?IMAGE_BUCKET:VIDEO_BUCKET;
+
+const path=
+currentUser.id+"/"+Date.now()+"_"+
+crypto.randomUUID()+"_"+safeName(file.name);
+
+btn.disabled=true;
+btn.textContent="Uploading...";
+
+const {error}=await db.storage.from(bucket).upload(
+path,file,{
+upsert:false,
+contentType:file.type
+});
+
+if(error)throw error;
+
+$("fileInput").value="";
+
+localNotify("uploadStatus","Upload successful!","ok");
+
+await loadFiles();
+
+}catch(err){
+localNotify("uploadStatus",err.message,"error");
+}finally{
+btn.disabled=false;
+btn.textContent="Upload file";
+}
+});
+
+/* FILE LIST */
+
+async function loadBucket(bucket,target,isImage){
+const root=$(target);
+root.textContent="Loading...";
+
+const {data,error}=await db.storage.from(bucket).list(
+currentUser.id,{
+limit:100,
+sortBy:{column:"created_at",order:"desc"}
+});
+
+root.replaceChildren();
+
+if(error){
+root.textContent=error.message;
+return;
+}
+
+const files=(data||[]).filter(f=>
+f.name&&!f.name.startsWith(".")
+);
+
+if(!files.length){
+root.textContent="No files uploaded yet.";
+return;
+}
+
+for(const file of files){
+
+const path=currentUser.id+"/"+file.name;
+
+const div=document.createElement("div");
+div.className="file";
+
+const name=document.createElement("p");
+name.textContent=file.name;
+div.appendChild(name);
+
+const {data:urlData,error:urlError}=await db.storage
+.from(bucket).createSignedUrl(path,3600);
+
+if(!urlError&&urlData?.signedUrl){
+
+if(isImage){
+const img=document.createElement("img");
+img.src=urlData.signedUrl;
+img.alt=file.name;
+img.loading="lazy";
+div.appendChild(img);
+}else{
+const video=document.createElement("video");
+video.src=urlData.signedUrl;
+video.controls=true;
+video.preload="metadata";
+div.appendChild(video);
+}
+
+const link=document.createElement("a");
+link.href=urlData.signedUrl;
+link.target="_blank";
+link.rel="noopener noreferrer";
+link.textContent="Open file";
+div.appendChild(link);
+}
+
+const actions=document.createElement("div");
+actions.className="file-actions";
+
+const del=document.createElement("button");
+del.className="btn danger";
+del.textContent="Delete";
+
+del.addEventListener("click",async()=>{
+if(!confirm("Delete this file permanently?"))return;
+
+del.disabled=true;
+
+const {error}=await db.storage.from(bucket).remove([path]);
+
+if(error){
+notify(error.message,"error");
+del.disabled=false;
+return;
+}
+
+notify("File deleted successfully.","ok");
+await loadFiles();
+});
+
+actions.appendChild(del);
+div.appendChild(actions);
+root.appendChild(div);
+}
+}
+
+/* REFRESH */
+
+async function loadFiles(){
+if(!currentUser)return;
+
+await loadBucket(IMAGE_BUCKET,"imageList",true);
+await loadBucket(VIDEO_BUCKET,"videoList",false);
+}
+
+$("refreshFiles").addEventListener("click",async()=>{
+const btn=$("refreshFiles");
+
+try{
+btn.disabled=true;
+btn.textContent="Refreshing...";
+await loadFiles();
+notify("Files refreshed.","ok");
+}catch(err){
+notify(err.message,"error");
+}finally{
+btn.disabled=false;
+btn.textContent="Refresh files";
+}
+});
+
+/* STARTUP */
+
+async function startVYRO(){
+try{
+await testConnection();
+
+const {data,error}=await db.auth.getSession();
+
+if(error)throw error;
+
+await updateSession(data.session);
+
+}catch(err){
+notify("Startup error: "+err.message,"error");
+}
+}
+
+db.auth.onAuthStateChange((event,session)=>{
+if(event==="SIGNED_IN"||event==="SIGNED_OUT"||
+event==="TOKEN_REFRESHED"){
+setTimeout(()=>{
+updateSession(session).catch(err=>{
+notify(err.message,"error");
+});
+},0);
+}
+});
+
+startVYRO();
+
+</script>
+</body>
+  </html>
